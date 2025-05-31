@@ -44,3 +44,6 @@ build/
 
 # 项目特定
 src/backend/storage/
+
+# 忽略q目录中的大文件
+q/bin/
