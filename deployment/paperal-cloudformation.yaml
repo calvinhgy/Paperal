@@ -17,13 +17,14 @@ Parameters:
     ConstraintDescription: must be the name of an existing EC2 KeyPair.
 
   EnvironmentName:
-    Description: Environment name (dev, staging, prod)
+    Description: Environment name (dev, staging, prod, test)
     Type: String
     Default: dev
     AllowedValues:
       - dev
       - staging
       - prod
+      - test
 
 Resources:
   # VPC and Network Configuration
@@ -182,7 +183,7 @@ Resources:
     Properties:
       DBName: paperal
       Engine: postgres
-      EngineVersion: 14.5
+      EngineVersion: 14.18
       DBInstanceClass: db.t3.micro
       AllocatedStorage: 20
       StorageType: gp2
@@ -258,6 +259,7 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::142310301966:policy/PaperalBedrockPolicy
 
   EC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -270,7 +272,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-0c55b159cbfafe1f0  # Amazon Linux 2 AMI (adjust for your region)
+      ImageId: ami-0440d3b780d96b29d  # Amazon Linux 2 AMI for us-east-1
       KeyName: !Ref KeyName
       IamInstanceProfile: !Ref EC2InstanceProfile
       NetworkInterfaces:
